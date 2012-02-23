@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+// Set defaults
+var host = 'localhost', port = 5000;
+
+// Process args
+process.argv.splice(2).forEach(function(param){
+  if (Number(param) > 0) {
+  	port = param;
+  } else {
+  	host = param;
+  }
+});
+
+// Connect to server
+require('../lib/client').connect(host, port);
