@@ -19,6 +19,10 @@ Change `5000` to another number if you wish to listen on another port.
 
 ### Connecting to a server
 
+Install the client globally with:
+
+    $ sudo npm install -g ss-client
+
 Once your server is listening out for incoming console connections, connect to it from the terminal by executing:
 
     $ ss-client
