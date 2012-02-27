@@ -21,15 +21,15 @@ Change `5000` to another number if you wish to listen on another port.
 
 Install the client globally with:
 
-    $ sudo npm install -g ss-client
+    $ sudo npm install -g ss-console
 
 Once your server is listening out for incoming console connections, connect to it from the terminal by executing:
 
-    $ ss-client
+    $ ss-console
 
-By default `ss-client` will try to connect to a SocketStream server on localhost, port 5000. To connect to another host and/or port, pass params as so:
+By default `ss-console` will try to connect to a SocketStream server on localhost, port 5000. To connect to another host and/or port, pass params as so:
 
-    $ ss-client www.mysocketstreamserver.com 8500
+    $ ss-console www.mysocketstreamserver.com 8500
 
 Note: A new Session ID will be created for you each time you connect to the console, allowing you to call `ss.rpc()` commands which use the `req.use('session')` middleware.
 
