@@ -2,7 +2,7 @@
   "name": "ss-console",
   "author": "Owen Barnes <owen@socketstream.org>",
   "description": "Adds a Console (REPL) interface to your SocketStream app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./lib/server.js",
   "repository": {
     "type" : "git",

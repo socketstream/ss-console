@@ -30,11 +30,11 @@ exports.init = (ss) ->
 
       # Handle client disconnections
       socket.on 'end', ->
-        log "←".green, "Remote console client has disconnected - Session ID #{sessionID}".grey
+        log "←".green, "Session ID #{sessionID} - Console client has disconnected".grey
 
       # Make all Request Responders with an 'internal' interface available over the REPL
       for name, responder of ssInstance.responders
-        if responder.server.internal
+        if responder.internal
         
           # Add to the ss API
           ss.api[name] = ->
@@ -56,9 +56,9 @@ exports.init = (ss) ->
                 socket.write("#{name.toUpperCase()} responder replied in #{timeTaken}ms with:\n".grey)
                 socket.write(JSON.stringify(params))
 
-            responder.server.internal(args, meta, cb)
+            responder.internal(args, meta, cb)
 
-      log "→".cyan, "Remote console client has connected - Session ID #{sessionID}".grey
+      log "→".cyan, "Session ID #{sessionID} - Console client has connected".grey
 
       # Start a REPL for this client
       rconsole = repl.start('', socket, undefined, true)
