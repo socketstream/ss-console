@@ -2,7 +2,7 @@
   "name": "ss-console",
   "author": "Owen Barnes <owen@socketstream.org>",
   "description": "Adds a Console (REPL) interface to your SocketStream app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "./lib/server.js",
   "repository": {
     "type" : "git",
@@ -15,8 +15,7 @@
     "node": ">= 0.6.0"
   },
   "dependencies": {
-    "colors": "0.6.x", 
-    "connect": "https://github.com/senchalabs/connect/tarball/master"
+    "colors": "0.6.x"
   },
   "devDependencies": {
     "coffee-script": "= 1.2.0"

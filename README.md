@@ -10,7 +10,7 @@ The SocketStream console follows the client/server model. This ensures the conso
 Add `ss-console` to your package.json then add the following lines to your `app.js` file:
 
 ```javascript
-var consoleServer = require('ss-console').init(ss);
+var consoleServer = require('ss-console')(ss);
 consoleServer.listen(5000);
 ```
 

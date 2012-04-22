@@ -2,42 +2,36 @@
 # --------------
 # Listen out for incoming remote console connections
 
-log = console.log
-
 require('colors')
 net = require('net')
 repl = require('repl')
-connect = require('connect')
-Session = connect.session.Session
 
-exports.init = (ss) ->
+port = null
 
-  port = null
+module.exports = (socketStream) ->
 
-  ss.api.consoleVersion = '0.1.0'
+  ss = socketStream.api
 
-  ss.events.on 'server:start', (ssInstance) ->
+  ss.consoleVersion = '0.1.2'
+
+  socketStream.events.on 'server:start', (serverInstance) ->
     return false unless port  
-    log("i".green, "Console Server running on port #{port}")
+    ss.log("i".green, "Console Server running on port #{port}")
 
     server = net.createServer (socket) ->
 
-      # Create a unique session for this console client
-      sessionID = connect.utils.uid(24)
-      thisSession = new Session({sessionID: sessionID, sessionStore: ssInstance.sessionStore})
-      thisSession.cookie = {maxAge: null}
-      thisSession.save()
+      sessionID = ss.session.create()
 
       # Handle client disconnections
       socket.on 'end', ->
-        log "←".green, "Session ID #{sessionID} - Console client has disconnected".grey
+        ss.log("←".green, "Session ID #{sessionID} - Console client has disconnected".grey)
 
-      # Make all Request Responders with an 'internal' interface available over the REPL
-      for name, responder of ssInstance.responders
-        if responder.internal
+      # Make all Request Responders with a 'console' interface available over the REPL
+      for id, responder of serverInstance.responders
+        if responder.interfaces.internal && responder.name
         
           # Add to the ss API
-          ss.api[name] = ->
+          ss[responder.name] = ->
             start = Date.now()
             args = Array.prototype.slice.call(arguments)
             meta = {sessionId: sessionID, transport: 'console'}
@@ -53,16 +47,16 @@ exports.init = (ss) ->
                   socket.write(JSON.stringify(err))
               else      
                 timeTaken = Date.now() - start
-                socket.write("#{name.toUpperCase()} responder replied in #{timeTaken}ms with:\n".grey)
+                socket.write("#{responder.name.toUpperCase()} responder replied in #{timeTaken}ms with:\n".grey)
                 socket.write(JSON.stringify(params))
 
-            responder.internal(args, meta, cb)
+            responder.interfaces.internal(args, meta, cb)
 
-      log "→".cyan, "Session ID #{sessionID} - Console client has connected".grey
+      ss.log("→".cyan, "Session ID #{sessionID} - Console client has connected".grey)
 
       # Start a REPL for this client
-      rconsole = repl.start('', socket, undefined, true)
-      rconsole.context.ss = ss.api
+      rconsole = repl.start('', socket, undefined, true, true)
+      rconsole.context.ss = ss
     
     server.listen(port)
 
