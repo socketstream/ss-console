@@ -4,6 +4,8 @@ Allows you to connect to a running SocketStream server to call commands such as 
 
 The SocketStream console follows the client/server model. This ensures the console client starts instantly and even allows you to run commands against a live production system, should you wish.
 
+**Important Note** The latest release of ss-console (0.1.3) is designed to work with Node 0.8 only. If you are using Node 0.6 please install version 0.1.2 from npm.
+
 
 ### Installation
 
@@ -32,8 +34,3 @@ By default `ss-console` will try to connect to a SocketStream server on localhos
     $ ss-console www.mysocketstreamserver.com 8500
 
 Note: A new Session ID will be created for you each time you connect to the console, allowing you to call `ss.rpc()` commands which use the `req.use('session')` middleware.
-
-
-### Contributing
-
-Please type `make build` to convert `/src` files to `/lib`.

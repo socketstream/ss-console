@@ -13,4 +13,4 @@ process.argv.splice(2).forEach(function(param){
 });
 
 // Connect to server
-require('../lib/client').connect(host, port);
+require('../lib/client')(host, port);
